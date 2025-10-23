@@ -29,7 +29,7 @@ export const Timeline = styled.View`
 export const LineTop = styled.View<{ visible?: boolean }>`
   height: 18px;
   width: 2px;
-  background: ${(p) => (p.visible ? "#bdbdbd" : "transparent")};
+  background: ${({ visible }: { visible?: boolean }) => (visible ? "#bdbdbd" : "transparent")};
   margin-bottom: 6px;
 `;
 

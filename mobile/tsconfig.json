@@ -12,7 +12,7 @@
     "jsx": "react-native",
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "types": ["styled-components-react-native"],
+    "types": [],
     "paths": {
       "*": ["src/*"]  
     },

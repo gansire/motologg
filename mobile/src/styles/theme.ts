@@ -1,6 +1,4 @@
-import { DefaultTheme } from 'styled-components/native';
-
-export interface CustomTheme extends DefaultTheme {
+export interface CustomTheme {
   colors: {
     primary: string;
     error: string;
@@ -12,6 +10,7 @@ export interface CustomTheme extends DefaultTheme {
     backgroundInput: string;
   };
 }
+
 const theme: CustomTheme = {
   colors: {
     primary: '#3b82f6',
@@ -24,4 +23,5 @@ const theme: CustomTheme = {
     backgroundInput: '#ffffff',
   },
 };
+
 export default theme;

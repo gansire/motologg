@@ -2,6 +2,7 @@ import React from "react";
 import { FlatList, StatusBar } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import GlobalHeader from "../components/GlobalHeader";
+import FloatingButtonModal from "components/FloatingButtonModal";
 import {
     Safe,
     Row,
@@ -42,16 +43,19 @@ const mock: Item[] = [
 
 export default function HistoryScreen() {
     return (
-        <Safe>
-            <StatusBar barStyle="light-content" backgroundColor="#00a8a8" />
-            <GlobalHeader />
-            <FlatList
-                data={mock}
-                keyExtractor={(i) => i.id}
-                contentContainerStyle={{ padding: 16 }}
-                renderItem={({ item, index }) => <HistoryItem item={item} isFirst={index === 0} />}
-            />
-        </Safe>
+        <>
+            <Safe>
+                <StatusBar barStyle="light-content" backgroundColor="#00a8a8" />
+                <GlobalHeader />
+                <FlatList
+                    data={mock}
+                    keyExtractor={(i) => i.id}
+                    contentContainerStyle={{ padding: 16 }}
+                    renderItem={({ item, index }) => <HistoryItem item={item} isFirst={index === 0} />}
+                />
+            </Safe>
+            <FloatingButtonModal/>
+        </>
     );
 }
 
@@ -90,6 +94,7 @@ function HistoryItem({ item, isFirst }: { item: Item; isFirst?: boolean }) {
                     {item.amount !== undefined ? <Amount>R$ {item.amount.toFixed(2)}</Amount> : null}
                 </BottomRow>
             </Content>
+        
         </Row>
     );
 }

@@ -11,6 +11,7 @@ export type RootStackParamList = {
   AddExpense: { vehicleId: string };
   History: { vehicleId: string };
   Profile: { userId: string };
+  FuelScreen: undefined;
 };
 
 // 👇 Tipo para usar com useNavigation

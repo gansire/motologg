@@ -11,11 +11,11 @@ import { RootStackParamList } from '../types/navigation';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterForm from '../components/RegisterForm';
 import AddVehicleScreen from '../screens/AddVehicleScreen';
-import DashboardScreen from '../screens/DashboardScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import GlobalHeader from '../components/GlobalHeader';
 import { styles } from '../styles/AppNavigator.styles';
+import FuelScreen from '../screens/FuelScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -40,10 +40,6 @@ const MainTabs = () => {
             case "History":
               iconName = "list-outline";
               tooltipText = "Histórico";
-              break;
-            case "Dashboard":
-              iconName = "add-circle-outline";
-              tooltipText = "Adicionar";
               break;
             case "Profile":
               iconName = "person-outline";
@@ -75,7 +71,6 @@ const MainTabs = () => {
       })}
     >
       <Tab.Screen name="History" component={HistoryScreen} />
-      <Tab.Screen name="Dashboard" component={DashboardScreen} options={{ tabBarLabel: '' }} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -134,6 +129,10 @@ const AppNavigatorContent = () => {
           header: () => <GlobalHeader />,
           title: 'Adicionar Veículo'
         }}
+      />
+      <Stack.Screen
+        name="FuelScreen"
+        component={FuelScreen}
       />
     </Stack.Navigator>
   );
