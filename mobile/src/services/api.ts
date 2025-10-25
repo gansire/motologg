@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navigate } from '../utils/navigation';
 import { Platform } from 'react-native';
 
-const HOST_IP = '192.168.18.81'; 
+const HOST_IP = 'https://c826ec591c54.ngrok-free.app'; 
 
 const getBaseURL = (): string => {
   if (Platform.OS === 'android') {

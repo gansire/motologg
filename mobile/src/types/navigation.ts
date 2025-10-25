@@ -1,6 +1,7 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RouteProp } from "@react-navigation/native";
+import { FormField } from "./FormField";
 
 export type RootStackParamList = {
   Login: undefined; 
@@ -11,7 +12,7 @@ export type RootStackParamList = {
   AddExpense: { vehicleId: string };
   History: { vehicleId: string };
   Profile: { userId: string };
-  FuelScreen: undefined;
+  FormScreen: { type: string; fields: FormField[] }; 
 };
 
 // 👇 Tipo para usar com useNavigation

@@ -1,20 +1,72 @@
 import React, { useState } from 'react';
 import { View, Modal, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,NavigationProp  } from '@react-navigation/native';
 import { styles } from '../styles/FloatingButtonModal.styles';
+import { RootStackParamList } from '../types/navigation';
 
 export default function FloatingButtonModal() {
   const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation(); 
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>(); 
 
-  const options = [
-    // { label: 'Lembrete', icon: 'event', route: 'FuelScreen' },
-    // { label: 'Receita', icon: 'attach-money', },
-    // { label: 'Serviço', icon: 'build',},
-    // { label: 'Despesa', icon: 'money-off' },
-    { label: 'Abastecimento', icon: 'local-gas-station', route: 'FuelScreen'},
+    const options = [
+    {
+      label: 'Lembrete',
+      icon: 'event',
+      type: 'Lembrete',
+      fields: [
+        { key: 'title', label: 'Título', placeholder: 'Título do lembrete', required: true },
+        { key: 'description', label: 'Descrição', placeholder: 'Detalhes', multiline: true },
+        { key: 'date', label: 'Data', placeholder: 'DD/MM/AAAA' },
+      ],
+    },
+    {
+      label: 'Receita',
+      icon: 'attach-money',
+      type: 'Receita',
+      fields: [
+        { key: 'value', label: 'Valor', placeholder: 'R$', required: true, keyboardType: 'numeric' as const },
+        { key: 'date', label: 'Data', placeholder: 'DD/MM/AAAA' },
+        { key: 'description', label: 'Descrição', placeholder: 'Fonte da receita', required: true },
+        { key: 'category', label: 'Categoria', placeholder: 'Ex.: Salário' },
+      ],
+    },
+    {
+      label: 'Serviço',
+      icon: 'build',
+      type: 'Serviço',
+      fields: [
+        { key: 'value', label: 'Valor', placeholder: 'R$', required: true, keyboardType: 'numeric' as const },
+        { key: 'description', label: 'Descrição', placeholder: 'Tipo de serviço', required: true },
+        { key: 'date', label: 'Data', placeholder: 'DD/MM/AAAA' },
+        { key: 'provider', label: 'Prestador', placeholder: 'Nome do prestador' },
+      ],
+    },
+    {
+      label: 'Despesa',
+      icon: 'money-off',
+      type: 'Despesa',
+      fields: [
+        { key: 'value', label: 'Valor', placeholder: 'R$', required: true, keyboardType: 'numeric' as const },
+        { key: 'description', label: 'Descrição', placeholder: 'Motivo da despesa', required: true },
+        { key: 'date', label: 'Data', placeholder: 'DD/MM/AAAA' },
+        { key: 'category', label: 'Categoria', placeholder: 'Ex.: Alimentação' },
+      ],
+    },
+    {
+      label: 'Abastecimento',
+      icon: 'local-gas-station',
+      type: 'Abastecimento',
+      fields: [
+        { key: 'value', label: 'Valor', placeholder: 'R$', required: true, keyboardType: 'numeric' as const },
+        { key: 'liters', label: 'Litros', placeholder: 'Litros abastecidos', keyboardType: 'numeric' as const },
+        { key: 'km', label: 'Km Rodados', placeholder: 'Km atuais', keyboardType: 'numeric' as const },
+        { key: 'description', label: 'Descrição', placeholder: 'Posto ou detalhes' },
+        { key: 'date', label: 'Data', placeholder: 'DD/MM/AAAA' },
+      ],
+    },
   ];
+  
 
   return (
     <>
@@ -41,7 +93,7 @@ export default function FloatingButtonModal() {
                 key={option.label} 
                 style={styles.optionButton}
                 onPress={() => {
-                  navigation.navigate(option.route as never);
+                  navigation.navigate('FormScreen', { type: option.type, fields: option.fields });
                   setModalVisible(false);
                 }}
               >

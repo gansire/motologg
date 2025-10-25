@@ -15,7 +15,7 @@ import HistoryScreen from '../screens/HistoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import GlobalHeader from '../components/GlobalHeader';
 import { styles } from '../styles/AppNavigator.styles';
-import FuelScreen from '../screens/FuelScreen';
+import FormScreen from '../screens/FormScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator();
@@ -131,8 +131,8 @@ const AppNavigatorContent = () => {
         }}
       />
       <Stack.Screen
-        name="FuelScreen"
-        component={FuelScreen}
+        name="FormScreen"
+        component={FormScreen}
       />
     </Stack.Navigator>
   );
