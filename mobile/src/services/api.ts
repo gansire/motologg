@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navigate } from '../utils/navigation';
 import { Platform } from 'react-native';
 
-const HOST_IP = 'https://c826ec591c54.ngrok-free.app'; 
+const HOST_IP = '192.168.18.81'; 
 
 const getBaseURL = (): string => {
   if (Platform.OS === 'android') {
@@ -14,7 +14,7 @@ const getBaseURL = (): string => {
 };
 
 const api = axios.create({
-  baseURL: getBaseURL(),
+  baseURL: 'https://ddc3089f6f4d.ngrok-free.app',
   timeout: 10000,
 });
 

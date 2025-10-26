@@ -23,7 +23,6 @@ let VehicleController = class VehicleController {
         this.vehicleService = vehicleService;
     }
     create(createVehicleDto, req) {
-        console.log('Creating vehicle for user:', createVehicleDto, 'User ID:', req.user.id);
         return this.vehicleService.create(createVehicleDto, req.user.id);
     }
     findAll(req) {

@@ -10,7 +10,6 @@ export class VehicleController {
 
   @Post()
   create(@Body() createVehicleDto: CreateVehicleDto, @Req() req: any) {
-    console.log('Creating vehicle for user:', createVehicleDto, 'User ID:', req.user.id);
     return this.vehicleService.create(createVehicleDto, req.user.id);
   }
 

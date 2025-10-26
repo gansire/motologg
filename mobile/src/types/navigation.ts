@@ -7,7 +7,6 @@ export type RootStackParamList = {
   Login: undefined; 
   Register: undefined;
   MainTabs: undefined;
-  AddVehicle: { userId: string };
   VehicleList: undefined;
   AddExpense: { vehicleId: string };
   History: { vehicleId: string };

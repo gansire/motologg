@@ -1,8 +1,8 @@
-// AuthContext.tsx (versão corrigida com tipos restritos)
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { navigate } from '../utils/navigation';
-import { RootStackParamList } from '../types/navigation'; // Importe o tipo (ajuste caminho)
+import { RootStackParamList } from '../types/navigation';
+import api from 'services/api';
 
 interface User {
   id: string;
@@ -17,7 +17,7 @@ interface AuthContextType {
   login: (token: string, user: User) => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
-  initialRoute: keyof RootStackParamList | null; // CORRIGIDO: Tipo restrito às chaves do stack
+  initialRoute: keyof RootStackParamList | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,48 +33,57 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser ] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null); // CORRIGIDO: Tipo restrito
+  const [initialRoute, setInitialRoute] = useState<keyof RootStackParamList | null>(null);
 
   useEffect(() => {
-    const loadUser  = async () => {
+    const loadUser = async () => {
       try {
         const savedToken = await AsyncStorage.getItem('token');
-        const savedUser  = await AsyncStorage.getItem('user');
-
-        if (savedToken && savedUser ) {
+        const savedUser = await AsyncStorage.getItem('user');
+        if (savedToken && savedUser) {
           try {
             const parsedUser = JSON.parse(savedUser);
-            setToken(savedToken);
-            setUser (parsedUser );
-            setInitialRoute('MainTabs' as keyof RootStackParamList); 
+            const response = await api.get('auth/me', {
+              headers: { Authorization: `Bearer ${savedToken}` }
+            })
+            if (response.status === 200) {
+              setToken(savedToken);
+              setUser(parsedUser);
+              setInitialRoute('MainTabs' as keyof RootStackParamList);
+            } else {
+              throw new Error('Usuário inválido');
+            }
+
           } catch (parseErr) {
-            await AsyncStorage.removeItem('user'); 
+            
+            await AsyncStorage.removeItem('user');
             setInitialRoute('Login' as keyof RootStackParamList);
           }
         } else {
-          setInitialRoute('Login' as keyof RootStackParamList); 
+          setInitialRoute('Login' as keyof RootStackParamList);
+    
         }
       } catch (err) {
+      
         setInitialRoute('Login' as keyof RootStackParamList);
       } finally {
         setLoading(false);
       }
     };
-    loadUser ();
+    loadUser();
   }, []);
 
-  const login = async (newToken: string, newUser:User) => {
+  const login = async (newToken: string, newUser: User) => {
     try {
       await AsyncStorage.setItem('token', newToken);
-      await AsyncStorage.setItem('user', JSON.stringify(newUser ));
+      await AsyncStorage.setItem('user', JSON.stringify(newUser));
       setToken(newToken);
-      setUser (newUser );
-
+      setUser(newUser);
       setInitialRoute('MainTabs' as keyof RootStackParamList);
-      setTimeout(() => navigate('MainTabs'), 100);
+      navigate('MainTabs');
     } catch (err) {
       console.error('Erro no login:', err);
       throw err;
@@ -86,7 +95,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await AsyncStorage.removeItem('token');
       await AsyncStorage.removeItem('user');
       setToken(null);
-      setUser (null);
+      setUser(null);
       setInitialRoute('Login' as keyof RootStackParamList);
       navigate('Login');
     } catch (err) {

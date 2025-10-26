@@ -14,34 +14,91 @@ model User {
   name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  vehicles  Vehicle[] // Relação com veículos
+  vehicles  Vehicle[]
 
   @@map("users")
 }
-
 
 model Vehicle {
   id        String    @id @default(cuid())
   placa     String    @unique
   modelo    String
   ano       Int
-  tipo      String // 'carro' | 'moto'
+  tipo      String
   kmInicial Int
   userId    String
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  expenses  Expense[] // Para futuro (despesas)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expenses  Expense[]
+  incomes   Income[]  
+  services  Service[]
+  fuels     Fuel[]  
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@map("vehicles")
 }
 
 model Expense {
   id        String   @id @default(cuid())
-  data      DateTime
+  dateTime  DateTime
   kmAtual   Int
-  litros    Float?
   valor     Float
-  tipo      String // 'combustivel' | 'manutencao' etc.
+  tipo      ExpenseType
+  categoria String? 
+  local     String?
+  formaPagamento String?
   vehicleId String
   vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  @@map("expenses")
+}
+
+model Income {
+  id        String   @id @default(cuid())
+  dateTime  DateTime
+  kmAtual   Int
+  valor     Float
+  tipo      String
+  vehicleId String
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("incomes")
+}
+
+model Service {
+  id        String   @id @default(cuid())
+  dateTime  DateTime
+  kmAtual   Int
+  valor     Float
+  tipo      String
+  local     String?
+  formaPagamento String?
+  vehicleId String
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("services")
+}
+
+model Fuel {
+  id        String   @id @default(cuid())
+  dateTime  DateTime
+  kmAtual   Int
+  litros    Float?
+  valor     Float
+  tipo      String 
+  posto     String?
+  vehicleId String
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("fuels")
+}
+
+enum ExpenseType {
+  combustivel
+  manutencao
+  outros
 }
